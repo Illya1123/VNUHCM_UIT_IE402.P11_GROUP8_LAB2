@@ -35,7 +35,7 @@ require([
       z: 20.2
     });
   
-    Mesh.createFromGLTF(house, "./building.glb")
+    Mesh.createFromGLTF(house, "./resources/building.glb")
       .then(function(geometry) {
         geometry.scale(50, { origin: house });
         geometry.rotate(0, 0, 300);
@@ -59,7 +59,7 @@ require([
       z: 20.2
     });
   
-    Mesh.createFromGLTF(car, "./porsche_gt3_rs.glb")
+    Mesh.createFromGLTF(car, "./resources/porsche_gt3_rs.glb")
       .then(function(geometry) {
         geometry.scale(3, { origin: car });
         geometry.rotate(0, 0, 203);
