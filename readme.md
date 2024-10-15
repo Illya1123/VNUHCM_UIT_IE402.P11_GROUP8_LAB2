@@ -27,11 +27,11 @@ Chào mừng bạn đến với repo IE402.P11 - LAB 1! Đây là bài tập Lab
 
 1. Tải repository về máy:
    ```
-   git clone https://github.com/Illya1123/IE402-LAB1.git
+   git clone https://github.com/Illya1123/VNUHCM_UIT_IE402.P11_GROUP8_LAB2.git
    ```
 2. Chuyển sang thư mục dự án:
    ```
-   cd ./IE402-LAB2/
+   cd ./VNUHCM_UIT_IE402.P11_GROUP8_LAB2/
    ```
 3. Mở dự án bằng Visual Studio Code
    ```
