@@ -37,7 +37,6 @@ Chào mừng bạn đến với repo IE402.P11 - LAB 2! Đây là bài tập Lab
    ```
    code .
    ```
-
 ## Chạy dự án
 
 1. Đảm bảo bạn đang sử dụng Visual Studio Code để mở dự án.
