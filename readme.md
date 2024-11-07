@@ -7,3 +7,4 @@
 ## Giới thiệu
 
 Chào mừng bạn đến với repo IE402.P11 - LAB 2! branch Kiet  Đây là bài tập Lab 2 của Kiet lớp Hệ thống thông tin địa lý 3 chiều
+![Screenshot from 2024-11-07 23-38-11](https://github.com/user-attachments/assets/89d24def-1b04-4e5c-9008-c40c981d0a6a)
