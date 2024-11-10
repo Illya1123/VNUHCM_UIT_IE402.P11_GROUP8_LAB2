@@ -11,7 +11,7 @@
     />
     <script src="https://js.arcgis.com/4.21/"></script>
     <script src="map.js"></script>
-    
+
     <style>
       html, body, #viewDiv {
         padding: 0;
@@ -20,6 +20,257 @@
         width: 100%;
       }
     </style>
+
+<script>
+	let popup_template = {
+					title: "{Name}",
+					content: "This {type} at <b>{Location}</b>."
+				};
+        let jsondata = {
+    points: [
+        // Existing points can remain here
+    ],
+    lines: [
+        // Existing lines can remain here
+    ],
+    polygons: [
+        {
+            type: "polygon",
+            rings: [
+                [106.7029206, 10.7766008, 0],             // Base point
+                [106.70305776175061, 10.776753092251816, 0],
+                [106.7031697536869, 10.776649190680617, 0],
+                [106.70309576991909, 10.77656675592567, 0],
+                [106.7029623, 10.7765636, 0],
+                [106.7029206, 10.7766008, 0]              // Closing the base
+            ],
+            symbol: {
+                type: "simple-fill",
+                color: [251, 251, 204, 0.3],
+                outline: {
+                  color: [51, 51, 204],
+                  width: 2
+                }
+            }
+        },
+        {
+            type: "polygon",
+            rings: [
+                [106.7029206, 10.7766008, 14.5],           // Top point with height 14.5
+                [106.70305776175061, 10.776753092251816, 14.5],
+                [106.7031697536869, 10.776649190680617, 14.5],
+                [106.70309576991909, 10.77656675592567, 14.5],
+                [106.7029623, 10.7765636, 14.5],
+                [106.7029206, 10.7766008, 14.5]            // Closing the top
+            ],
+            symbol: {
+                type: "simple-fill",
+                color: [0, 255, 0, 0.7], // Set color and transparency of top
+                outline: {
+                    color: [255, 255, 255],
+                    width: 1
+                }
+            }
+        },
+        // Side faces of the 3D model
+        {
+            type: "polygon",
+            rings: [
+                [106.7029206, 10.7766008, 0],
+                [106.70305776175061, 10.776753092251816, 0],
+                [106.70305776175061, 10.776753092251816, 14.5],
+                [106.7029206, 10.7766008, 14.5],
+                [106.7029206, 10.7766008, 0]
+            ],
+            symbol: {
+                type: "simple-fill",
+                color: [227, 139, 79, 0.6], // Set color and transparency of sides
+                outline: {
+                    color: [255, 255, 255],
+                    width: 2
+                }
+            }
+        },
+        // Repeat similar polygons for each side
+        {
+            type: "polygon",
+            rings: [
+                [106.70305776175061, 10.776753092251816, 0],
+                [106.7031697536869, 10.776649190680617, 0],
+                [106.7031697536869, 10.776649190680617, 14.5],
+                [106.70305776175061, 10.776753092251816, 14.5],
+                [106.70305776175061, 10.776753092251816, 0]
+            ],
+            symbol: {
+                type: "simple-fill",
+                color: [227, 139, 79, 0.6],
+                outline: {
+                    color: [255, 255, 255],
+                    width: 2
+                }
+            }
+        },
+        {
+            type: "polygon",
+            rings: [
+                [106.7031697536869, 10.776649190680617, 0],
+                [106.70309576991909, 10.77656675592567, 0],
+                [106.70309576991909, 10.77656675592567, 14.5],
+                [106.7031697536869, 10.776649190680617, 14.5],
+                [106.7031697536869, 10.776649190680617, 0]
+            ],
+            symbol: {
+                type: "simple-fill",
+                color: [227, 139, 79, 0.6],
+                outline: {
+                    color: [255, 255, 255],
+                    width: 2
+                }
+            }
+        },
+        {
+            type: "polygon",
+            rings: [
+                [106.70309576991909, 10.77656675592567, 0],
+                [106.7029623, 10.7765636, 0],
+                [106.7029623, 10.7765636, 14.5],
+                [106.70309576991909, 10.77656675592567, 14.5],
+                [106.70309576991909, 10.77656675592567, 0]
+            ],
+            symbol: {
+                type: "simple-fill",
+                color: [227, 139, 79, 0.6],
+                outline: {
+                    color: [255, 255, 255],
+                    width: 2
+                }
+            }
+        },
+        {
+            type: "polygon",
+            rings: [
+              [106.7029506, 10.7766208, 17.5], // Slightly offset coordinates with higher elevation
+              [106.70303776175061, 10.776723092251816, 17.5],
+              [106.7031397536869, 10.776629190680617, 17.5],
+              [106.70306576991909, 10.77658675592567, 17.5],
+              [106.7029803, 10.7765836, 17.5],
+              [106.7029506, 10.7766208, 17.5]
+            ],
+            symbol: {
+              type: "simple-fill",
+              color: [128, 128, 128, 0.8], // Darker color for the roof
+              outline: { color: [255, 255, 255], width: 1 }
+            }
+          },
+          // Sloped sides of the truncated pyramid roof
+          {
+            type: "polygon",
+            rings: [
+              [106.7029206, 10.7766008, 14.5],
+              [106.70305776175061, 10.776753092251816, 14.5],
+              [106.70303776175061, 10.776723092251816, 17.5],
+              [106.7029506, 10.7766208, 17.5],
+              [106.7029206, 10.7766008, 14.5]
+            ],
+            symbol: {
+              type: "simple-fill",
+              color: [227, 139, 79, 0.6],
+              outline: { color: [255, 255, 255], width: 1 }
+            }
+          },
+          {
+            type: "polygon",
+            rings: [
+              [106.70305776175061, 10.776753092251816, 14.5],
+              [106.7031697536869, 10.776649190680617, 14.5],
+              [106.7031397536869, 10.776629190680617, 17.5],
+              [106.70303776175061, 10.776723092251816, 17.5],
+              [106.70305776175061, 10.776753092251816, 14.5]
+            ],
+            symbol: {
+              type: "simple-fill",
+              color: [227, 139, 79, 0.6],
+              outline: { color: [255, 255, 255], width: 1 }
+            }
+          },
+          {
+            type: "polygon",
+            rings: [
+              [106.7031697536869, 10.776649190680617, 14.5],
+              [106.70309576991909, 10.77656675592567, 14.5],
+              [106.70306576991909, 10.77658675592567, 17.5],
+              [106.7031397536869, 10.776629190680617, 17.5],
+              [106.7031697536869, 10.776649190680617, 14.5]
+            ],
+            symbol: {
+              type: "simple-fill",
+              color: [227, 139, 79, 0.6],
+              outline: { color: [255, 255, 255], width: 1 }
+            }
+          },
+          {
+            type: "polygon",
+            rings: [
+              [106.70309576991909, 10.77656675592567, 14.5],
+              [106.7029623, 10.7765636, 14.5],
+              [106.7029803, 10.7765836, 17.5],
+              [106.70306576991909, 10.77658675592567, 17.5],
+              [106.70309576991909, 10.77656675592567, 14.5]
+            ],
+            symbol: {
+              type: "simple-fill",
+              color: [227, 139, 79, 0.6],
+              outline: { color: [255, 255, 255], width: 1 }
+            }
+          }
+    ]
+};
+
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/GraphicsLayer",
+		"esri/Graphic"], function(
+        Map, SceneView, GraphicsLayer, Graphic
+      ) {
+
+        const map = new Map({
+          basemap: "osm",
+          ground: "world-elevation"
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          camera: {
+            position: [106.7029206, 10.7766008, 100],
+            heading: 10,
+            tilt: 60
+          }
+        });
+		var createGraphic = function (data) {
+			return new Graphic({
+				geometry: data,
+				symbol: data.symbol,
+				attributes: data,
+				popupTemplate: data.popupTemplate
+			});
+		}; 
+        var graphicsLayer = new GraphicsLayer();
+		
+		jsondata.points.forEach(function(data){
+			graphicsLayer.add(createGraphic(data));
+		});
+		jsondata.lines.forEach(function(data){
+		 	graphicsLayer.add(createGraphic(data));
+		});
+		jsondata.polygons.forEach(function(data){
+			graphicsLayer.add(createGraphic(data));
+		});
+        
+        map.add(graphicsLayer);
+      });
+    </script>
   </head>
 
   <body>

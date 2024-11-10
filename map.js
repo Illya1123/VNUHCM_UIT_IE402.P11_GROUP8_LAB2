@@ -14,7 +14,7 @@ require([
   });
 
   const map = new Map({
-    basemap: "topo-vector",
+    basemap: "osm",
     ground: "world-elevation",
     layers: [graphicsLayer]
   });
@@ -27,6 +27,39 @@ require([
       tilt: 0
     }
   });
+
+fetch("./resources/khanh.geojson")
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(feature => {
+        const coordinates = feature.geojson.coordinates;
+
+        const coordinatesWithZ = coordinates[0].map(point => [...point, 0]);
+
+        const polygonGeometry = new Polygon({
+          rings: [coordinatesWithZ],
+          spatialReference: { wkid: 4326 }
+        });
+
+        const polygonGraphic = new Graphic({
+          geometry: polygonGeometry,
+          symbol: new SimpleFillSymbol({
+            color: [251, 251, 204, 0.3],
+            outline: {
+              color: [51, 51, 204],
+              width: 2
+            }
+          }),
+          attributes: feature,
+          popupTemplate: {
+            title: "{name}",
+            content: "{display_name}"
+          }
+        });
+        graphicsLayer.add(polygonGraphic);
+      });
+    })
+    .catch(console.error);
 
   fetch("./resources/boundary.geojson")
     .then(response => response.json())
