@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -109,5 +109,129 @@ html, body, #viewDiv {
 
 <body>
 	<div id="viewDiv"></div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>3D - Building Map</title>
+
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.29/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/SceneView",
+      "esri/layers/GraphicsLayer",
+      "esri/Graphic",
+      "esri/geometry/Polygon",
+      "esri/geometry/Polyline",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/SimpleLineSymbol"
+    ], function(Map, SceneView, GraphicsLayer, Graphic, Polygon, Polyline, SimpleFillSymbol, SimpleLineSymbol) {
+
+      // Tạo map và view
+      const map = new Map({
+        basemap: "topo-vector",
+        ground: "world-elevation"
+      });
+
+      const view = new SceneView({
+        container: "viewDiv",
+        map: map,
+        camera: {
+          position: [106.70313711899303, 10.776613099520674, 300],
+          heading: 0,
+          tilt: 0
+        }
+      });
+
+      // Tạo GraphicsLayer để chứa các graphic
+      const graphicsLayer = new GraphicsLayer();
+      map.add(graphicsLayer);
+
+      // Hàm để tạo graphic Polygon
+      const createPolygonGraphic = function(rings) {
+        const polygon = new Polygon({
+          rings: rings,
+          spatialReference: { wkid: 4326 }
+        });
+
+        const fillSymbol = new SimpleFillSymbol({
+          color: [227, 139, 79, 0.6],
+          outline: {
+            color: [255, 255, 255],
+            width: 1
+          }
+        });
+
+        const graphic = new Graphic({
+          geometry: polygon,
+          symbol: fillSymbol
+        });
+
+        graphicsLayer.add(graphic);
+      };
+
+      // Hàm để tạo graphic Polyline
+      const createPolylineGraphic = function(paths) {
+        const polyline = new Polyline({
+          paths: paths,
+          spatialReference: { wkid: 4326 }
+        });
+
+        const lineSymbol = new SimpleLineSymbol({
+          color: [227, 139, 79, 0.6],
+          width: 2
+        });
+
+        const graphic = new Graphic({
+          geometry: polyline,
+          symbol: lineSymbol
+        });
+
+        graphicsLayer.add(graphic);
+      };
+
+      // Lấy dữ liệu geojson và xử lý
+      fetch('./resources/data.geojson')
+        .then(response => response.json())
+        .then(data => {
+          // Vẽ Polygon
+          data.polygons.forEach(function(polygonData) {
+            const rings = polygonData.rings;
+            createPolygonGraphic(rings);
+          });
+
+          // Vẽ Polyline (Nếu có)
+          if (data.polylines && data.polylines.length > 0) {
+            data.polylines.forEach(function(polylineData) {
+              const paths = polylineData.paths;
+              createPolylineGraphic(paths);
+            });
+          }
+        })
+        .catch(error => console.error("Error loading GeoJSON:", error));
+
+      view.popup.defaultPopupTemplateEnabled = true;  // Kích hoạt popup mặc định
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="viewDiv"></div>
 </body>
 </html>
