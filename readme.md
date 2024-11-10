@@ -14,4 +14,5 @@
 
 <br>
 <br>
-![Screenshot from 2024-11-07 23-38-11](https://github.com/user-attachments/assets/89d24def-1b04-4e5c-9008-c40c981d0a6a)
+
+![Screenshot from 2024-11-10 23-04-51](https://github.com/user-attachments/assets/2774308d-184c-422a-bcce-af97a6c812b3)
