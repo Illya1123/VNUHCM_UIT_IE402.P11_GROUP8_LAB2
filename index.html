@@ -1,28 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>Nhóm 8 Lab 2</title>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<title>3D - Building Map</title>
 
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.21/esri/themes/light/main.css"
-    />
-    <script src="https://js.arcgis.com/4.21/"></script>
-    <script src="map.js"></script>
-    
-    <style>
-      html, body, #viewDiv {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 100%;
-      }
-    </style>
-  </head>
+<style>
+html, body, #viewDiv {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+</style>
 
-  <body>
-    <div id="viewDiv"></div>
-  </body>
+<link rel="stylesheet"
+	href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.29/"></script>
+
+<script>
+    require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/GeoJSONLayer",
+        "esri/layers/GraphicsLayer", 
+        "esri/Graphic", 
+        "esri/request"
+    ], function (Map, SceneView, GeoJSONLayer, GraphicsLayer, Graphic, esriRequest) {
+
+        // Function to create a graphic
+        var createGraphic = function(data) {
+            return new Graphic({
+                geometry : data,
+                symbol : {
+                    type: "simple-fill", // Set the symbol to simple-fill for polygons
+                    color: [227, 139, 79, 0.6], // Same color as in the geojsonLayer
+                    outline: {
+                        color: [255, 255, 255], // White outline for contrast
+                        width: 1
+                    }
+                },
+                attributes : data,
+                popupTemplate : data.popupTemplate
+            });
+        };
+
+        // Request json
+        const json_options = {
+            query : { f : "json" },
+            responseType : "json"
+        };
+
+        esriRequest('./resources/data.geojson', json_options).then(function(response) {
+            var graphicsLayer = new GraphicsLayer();
+            console.log(response);
+            
+            // Iterate through each feature in the JSON response and create graphics
+            response.data.forEach(function(data) {
+                graphicsLayer.add(createGraphic(data)); // Add each graphic to the layer
+            });
+            map.add(graphicsLayer); // Add the graphics layer to the map
+        });
+
+        // geojson layer
+        const geojsonLayer = new GeoJSONLayer({
+            url: "./resources/data.geojson"
+        });
+
+        geojsonLayer.renderer = {
+            type: "simple", // Use simple renderer for GeoJSON layer
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                    {
+                        type: "extrude",
+                        size: 1,
+                        material: {
+                            color: "#7eadf7" // Color of the geojson layer
+                        }
+                    }
+                ]
+            }
+        };
+
+        // Create map and view
+        const map = new Map({
+            basemap: "topo-vector",
+            ground: "world-elevation",
+            layers: [geojsonLayer] // Add geojsonLayer to the map
+        });
+
+        const view = new SceneView({
+            container: "viewDiv",
+            map: map,
+            camera: {
+                position: [106.70313711899303, 10.776613099520674, 300],
+                heading: 0,
+                tilt: 0
+            }
+        });
+
+        view.popup.defaultPopupTemplateEnabled = true;
+    });
+</script>
+
+</head>
+
+<body>
+	<div id="viewDiv"></div>
+</body>
 </html>
