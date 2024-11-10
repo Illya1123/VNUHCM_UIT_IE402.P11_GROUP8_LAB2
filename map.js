@@ -28,7 +28,7 @@ require([
     }
   });
 
-  fetch("./resources/boundary.geojson")
+  fetch("./resources/Area6.geojson")
     .then(response => response.json())
     .then(data => {
       data.forEach(feature => {
