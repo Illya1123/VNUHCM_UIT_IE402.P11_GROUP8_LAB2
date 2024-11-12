@@ -22,6 +22,61 @@ Chào mừng bạn đến với repo IE402.P11 - LAB 2! Đây là bài tập Lab
 
 - [Visual Studio Code](https://code.visualstudio.com/Download)
 - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+- [Jupyter Notebook](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter)
+
+## Cách sử dụng tool lấy toạ độ
+
+Có 3 tools hỗ trợ để dễ dàng lấy toạ độ, căn chỉnh cho phù hợp. Gồm tool_tim_so_do.ipynb, tool_tim_toa_do_nhieu_cap.ipynb và tool_tim_toa_do.ipynb.
+
+<h2>1. tool_tim_so_do.ipynb (tool tìm số độ và khoảng cách giữa hai điểm)</h2>
+
+<p>Trong file, bạn nhập tọa độ cho <code>input1</code> và <code>input2</code>:</p>
+
+<p align="center">
+  <img src="./images/Screenshot%202024-11-12%20152347.png" alt="Nhập tọa độ" width="70%">
+</p>
+
+<p>Sau khi chạy toàn bộ file (Run All), bạn sẽ thấy kết quả ở cuối file:</p>
+
+<p align="center">
+  <img src="./images/Screenshot%202024-11-12%20152654.png" alt="Kết quả" width="70%">
+</p>
+
+<h2>2. tool_tim_toa_do_nhieu_cap.ipynb (Tool tìm nhiều tọa độ 1 lượt)</h2>
+
+<p>Tool này giúp dễ dàng lấy tọa độ khi tịnh tiến một vật thể. Đầu vào bao gồm <code>input_list</code>, trong đó bạn đưa vào toàn bộ mảng tọa độ để tiến hành tịnh tiến.</p>
+
+<p>Điền dữ liệu cho 2 biến:
+<ul>
+    <li><code>distance</code>: khoảng cách cần tịnh tiến</li>
+    <li><code>angle_degrees</code>: góc tính theo độ, lấy mốc hướng Bắc là 0 độ</li>
+</ul>
+</p>
+
+<p align="center">
+  <img src="./images/Screenshot 2024-11-12 153214.png" alt="tool tìm nhiều tọa độ" width="70%">
+</p>
+
+<p>Sau đó, nhấn <strong>Run All</strong> để nhận kết quả sau khi tịnh tiến.</p>
+
+<p align="center">
+  <img src="./images/Screenshot 2024-11-12 153340.png" alt="Kết quả" width="70%">
+</p>
+
+<h2>3. tool_tim_toa_do.ipynb (Tool tìm tọa độ 1 điểm)</h2>
+
+<p>Tool này tương tự <code>tool_tim_toa_do_nhieu_cap.ipynb</code> nhưng chỉ tìm tọa độ cho một điểm duy nhất. Rất phù hợp khi bạn cần tạo một vật thể mới với tọa độ chính xác.</p>
+
+<p align="center">
+  <img src="./images/Screenshot 2024-11-12 153652.png" alt="tool tìm tọa độ 1 điểm" width="70%">
+</p>
+
+<p>Sau đó, nhấn <strong>Run All</strong> để nhận kết quả.</p>
+
+<p align="center">
+  <img src="./images/Screenshot 2024-11-12 153818.png" alt="Kết quả" width="70%">
+</p>
+
 
 ## Cách sử dụng
 
