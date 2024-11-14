@@ -1,0 +1,17 @@
+#viewDiv {
+    height: 100%;
+    width: 100%;
+  }
+  
+  #toggleMeshButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    padding: 10px;
+    background-color: #0079c1;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
