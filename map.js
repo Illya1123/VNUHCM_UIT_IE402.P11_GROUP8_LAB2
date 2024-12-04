@@ -214,11 +214,17 @@ require([
                     });
 
                     const fillSymbol = new SimpleFillSymbol({
-                        color: [227, 139, 79],
-                        outline: {
-                            color: [255, 255, 255],
-                            width: 1,
-                        },
+                        color: `${
+                            item.symbol ? item.symbol.color : [227, 139, 79]
+                        }`,
+                        outline: `${
+                            item.symbol
+                                ? item.symbol.outline
+                                : {
+                                      color: [255, 255, 255],
+                                      width: 1,
+                                  }
+                        }`,
                     });
 
                     const graphic = new Graphic({
@@ -242,11 +248,17 @@ require([
                     });
 
                     const fillSymbol = new SimpleFillSymbol({
-                        color: [227, 139, 79],
-                        outline: {
-                            color: [255, 255, 255],
-                            width: 1,
-                        },
+                        color: `${
+                            item.symbol ? item.symbol.color : [227, 139, 79]
+                        }`,
+                        outline: `${
+                            item.symbol
+                                ? item.symbol.outline
+                                : {
+                                      color: [255, 255, 255],
+                                      width: 1,
+                                  }
+                        }`,
                     });
 
                     const graphic = new Graphic({
